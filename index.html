@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spatial Composition</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<h1 class = "title">ClonArch: Visualizing clonal architecture </h1>
+
+<h3>1. Select a tree: </h3>
+<select id="tree-dropdown" onchange="updateTreeSelection(this)">
+  <option value="tree0" id="tree0">Tree 0</option>
+  <option value="tree1" id="tree1">Tree 1</option>
+  <option value="tree2" id="tree2">Tree 2</option>
+  <option value="tree3" id="tree2">Tree 3</option>
+</select>
+
+
+<div id="printme"></div>
+
+</body>
+
+
+<script>
+
+updateTreeSelection = function(dropdown) {
+    tree_id=dropdown.value;
+    idx=tree_id.substring(4);
+    idx=parseInt(idx);
+
+    document.getElementById("printme").innerHTML = "LOl" + idx;
+}
+
+</script>
+<script type="text/javascript" src="main.js"></script>
+</html>
