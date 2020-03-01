@@ -49,36 +49,48 @@ function graphme(dates, dow, prices=[]) {
       // }]
     },
     options: {
-      responsive: true,
-      title: {
-        display: true,
-        text: 'Chart.js Line Chart'
+      onClick: function(e) {
+        dataset_idx=myLine.getElementAtEvent(e)[0]._datasetIndex
+        date_idx=myLine.getElementAtEvent(e)[0]._index
+        // console.log(xLabel.format('MMM YYYY'));
+        // alert("clicked x-axis area: " + xLabel.format('MMM YYYY'));
+
+        var date = dates[date_idx];
+        var symbol = "AAPL";
+
+        callNewsAPI(symbol, date);
+
       },
-      tooltips: {
-        mode: 'index',
-        intersect: false,
-      },
-      hover: {
-        mode: 'nearest',
-        intersect: true
-      },
-      scales: {
-        x: {
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Month'
-          }
-        },
-        y: {
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Value'
-          }
-        }
-      }
-    }
+      // responsive: true,
+      // title: {
+      //   display: true,
+      //   text: 'Chart.js Line Chart'
+      // },
+      // tooltips: {
+      //   mode: 'index',
+      //   intersect: false,
+      // },
+      // hover: {
+      //   mode: 'nearest',
+      //   intersect: true
+      // },
+      // scales: {
+      //   x: {
+      //     display: true,
+      //     scaleLabel: {
+      //       display: true,
+      //       labelString: 'Month'
+      //     }
+      //   },
+      //   y: {
+      //     display: true,
+      //     scaleLabel: {
+      //       display: true,
+      //       labelString: 'Value'
+      //     }
+      //   }
+      // }
+    } // end of options
   };
 
   var ctx = document.getElementById('canvas').getContext('2d');
@@ -87,6 +99,7 @@ function graphme(dates, dow, prices=[]) {
   }
   
   window.myLine = new Chart(ctx, config);
+  var canvas = document.getElementById('canvas')
 
   document.getElementById('randomizeData').addEventListener('click', function() {
     config.data.datasets.forEach(function(dataset) {
@@ -146,4 +159,6 @@ function graphme(dates, dow, prices=[]) {
 
     window.myLine.update();
   });  
+
+
 }
