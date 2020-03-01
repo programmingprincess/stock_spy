@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Spatial Composition</title>
+    <script src="Chart.min.js"></script>
+    <script src="utils.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -11,28 +13,102 @@
 
 <h3>1. Select a tree: </h3>
 <select id="tree-dropdown" onchange="updateTreeSelection(this)">
-  <option value="tree0" id="tree0">Tree 0</option>
-  <option value="tree1" id="tree1">Tree 1</option>
-  <option value="tree2" id="tree2">Tree 2</option>
+  <option value="msft" id="tree0">Tree 0</option>
+  <option value="aapl" id="tree1">Tree 1</option>
+  <option value="crm" id="tree2">Tree 2</option>
   <option value="tree3" id="tree2">Tree 3</option>
 </select>
+  <div style="width:75%;">
+    <canvas id="canvas"></canvas>
+  </div>
+  <br>
+  <br>
+  <button id="randomizeData">Randomize Data</button>
+  <button id="addDataset">Add Dataset</button>
+  <button id="removeDataset">Remove Dataset</button>
+  <button id="addData">Add Data</button>
+  <button id="removeData">Remove Data</button>
 
 
 <div id="printme"></div>
 
 </body>
-
-
+<script type="text/javascript" src="main.js"></script>
 <script>
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status === 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status, xhr.response);
+      }
+    };
+    xhr.send();
+};
+//api keys 
+// 1. open: "152.4100"
+// 2. high: "163.7100"
+// 3. low: "152.0000"
+// 4. close: "162.0100"
+// 5. adjusted close: "162.0100"
+// 6. volume: "96388312"
+// 7. dividend amount: "0.0000"
+// 8. split coefficient: "1.0000"
+
+var dow="";
+
+getJSON('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=DOW&apikey=APIKEY',
+function(err, data) {
+  if (err !== null) {
+    console.log('Something went wrong while parsing your JSON API:' + err);
+  } else {
+    series=data["Time Series (Daily)"];
+    var dates = [];
+    var prices= [];
+
+    for (var time in series) {
+      dates.push(time);
+      prices.push(series[time]["4. close"]);
+    }
+
+    graphme(dates, prices);
+    dow=prices;
+  }
+    
+});
+
 
 updateTreeSelection = function(dropdown) {
     tree_id=dropdown.value;
     idx=tree_id.substring(4);
     idx=parseInt(idx);
+    
 
-    document.getElementById("printme").innerHTML = "LOl" + idx;
+    getJSON('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=MSFT&apikey=APIKEY',
+    function(err, data) {
+      if (err !== null) {
+        console.log('Something went wrong while parsing your JSON API:' + err);
+      } else {
+        series=data["Time Series (Daily)"];
+        var dates = [];
+        var prices= [];
+
+        for (var time in series) {
+          dates.push(time);
+          prices.push(series[time]["4. close"]);
+        }
+
+        graphme(dates, dow, prices);
+      }
+        
+    });
+    // document.getElementById("printme").innerHTML = "LOl" + idx;
 }
 
 </script>
-<script type="text/javascript" src="main.js"></script>
+
 </html>
