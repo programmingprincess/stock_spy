@@ -1,5 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    table {
+      font-family: "Courier New", Courier, monospace;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even){background-color: #f2f2f2}
+    
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    </style>
 <head>
     <meta charset="UTF-8">
     <title>Spatial Composition</title>
@@ -9,7 +28,8 @@
 
 </head>
 <body>
-<h1 class = "title">ClonArch: Visualizing clonal architecture </h1>
+<h1 class = "title">Stock History </h1>
+
 
 <h3>1. Select a tree: </h3>
 <select id="tree-dropdown" onchange="updateTreeSelection(this)">
@@ -29,8 +49,26 @@
   <button id="addData">Add Data</button>
   <button id="removeData">Remove Data</button>
 
+<h3>1. Find relevant news: </h3>
+Company: <input type="text" id="myText" value="Company name">
+Date: <input type="text" id="myDate" value="YYYY-MM-DD">
+<button onclick = "callNewsAPI()"> Find results</button>
+
+
 
 <div id="printme"></div>
+<div class="col-md-6">
+  <table id="firstTabOverall">
+      <thead>
+          <th>Source</th>
+          <th>Title</th>
+          <th>Description</th>
+      </thead>
+      <tbody>
+        <tr></tr>
+      </tbody>
+  </table>
+</div>
 
 </body>
 <script type="text/javascript" src="main.js"></script>
@@ -82,6 +120,7 @@ function(err, data) {
 });
 
 
+
 updateTreeSelection = function(dropdown) {
     tree_id=dropdown.value;
     idx=tree_id.substring(4);
@@ -107,6 +146,60 @@ updateTreeSelection = function(dropdown) {
         
     });
     // document.getElementById("printme").innerHTML = "LOl" + idx;
+
+callNewsAPI = function(dropdown) {
+    searchTerm = document.getElementById("myText").value;
+    date = document.getElementById("myDate").value;
+    // searchTerm = dropdown.value;
+
+
+    var url = 'http://newsapi.org/v2/everything?' +
+              'q='+searchTerm+'&' +
+              // 'to=2020-01-18&' +
+              // 'to=2020-01-18&' +
+              'from='+date+'&' +
+              'to='+date+'&' +
+              'sortBy=popularity&';
+
+    var req = new Request(url);
+    var res = ""
+    fetch(req)
+        .then(function(response) {
+          return response.json();
+        }).then(response=>{
+          // debugger
+          res = response.articles[0].description;
+          // debugger
+          console.log(res);
+          // document.getElementById("printme").innerHTML = res;
+          var table = document.getElementById("firstTabOverall");
+          debugger
+          var childNodes = document.getElementById("firstTabOverall").childNodes[3];
+          var new_tbody = document.createElement('tbody');
+          // helper function        
+          function addCell(tr, text) {
+                  var td = tr.insertCell();
+                  td.innerHTML = text;
+                  return td;
+              }
+
+          var set1 = new Set(); 
+          // insert data
+          response.articles.forEach(function (article) {
+
+              var tit = article.title;
+              var yooareel = tit.link(article.url);
+              if(!set1.has(article.source.name)){
+                var row = new_tbody.insertRow();
+                addCell(row, article.source.name);
+                addCell(row, yooareel);
+                addCell(row, article.description);
+                set1.add(article.source.name);
+              }
+
+          });
+          childNodes.parentNode.replaceChild(new_tbody, childNodes)
+        })
 }
 
 </script>
