@@ -1,7 +1,7 @@
 
 function graphme(dates, dow, prices=[]) {
   var stocks = [{
-    label: 'My First dataset',
+    label: 'Dow Jones',
         backgroundColor: window.chartColors.red,
         borderColor: window.chartColors.red,
         data: dow,
@@ -10,7 +10,7 @@ function graphme(dates, dow, prices=[]) {
 
   if (prices.length > 0) {
     stocks.push({
-    label: 'My Second dataset',
+    label: document.getElementById("stockSymbol").value,
         backgroundColor: window.chartColors.blue,
         borderColor: window.chartColors.blue,
         data: prices,
@@ -56,7 +56,7 @@ function graphme(dates, dow, prices=[]) {
         // alert("clicked x-axis area: " + xLabel.format('MMM YYYY'));
 
         var date = dates[date_idx];
-        var symbol = "AAPL";
+        var symbol =  document.getElementById("stockSymbol").value;
 
         callNewsAPI(symbol, date);
       },
