@@ -1,7 +1,7 @@
 
 function graphme(dates, dow, prices=[]) {
   var stocks = [{
-    label: 'Dow Jones',
+    label: 'My First dataset',
         backgroundColor: window.chartColors.red,
         borderColor: window.chartColors.red,
         data: dow,
@@ -10,7 +10,7 @@ function graphme(dates, dow, prices=[]) {
 
   if (prices.length > 0) {
     stocks.push({
-    label: document.getElementById("stockSymbol").value,
+    label: 'My Second dataset',
         backgroundColor: window.chartColors.blue,
         borderColor: window.chartColors.blue,
         data: prices,
