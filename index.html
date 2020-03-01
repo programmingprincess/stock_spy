@@ -2,6 +2,7 @@
 <html lang="en">
 <style>
     table {
+      font-family: "Courier New", Courier, monospace;
       border-collapse: collapse;
       width: 100%;
     }
@@ -36,11 +37,14 @@ Date: <input type="text" id="myDate" value="YYYY-MM-DD">
 <div id="printme"></div>
 <div class="col-md-6">
   <table id="firstTabOverall">
-      <tr>
+      <thead>
           <th>Source</th>
           <th>Title</th>
           <th>Description</th>
-        </tr>
+      </thead>
+      <tbody>
+        <tr></tr>
+      </tbody>
   </table>
 </div>
 
@@ -61,8 +65,7 @@ callNewsAPI = function(dropdown) {
               // 'to=2020-01-18&' +
               'from='+date+'&' +
               'to='+date+'&' +
-              'sortBy=popularity&'+
-              'apiKey=128f029c5e6c42e4ad3b15e6691cd95b';
+              'sortBy=popularity&';
 
     var req = new Request(url);
     var res = ""
@@ -76,28 +79,32 @@ callNewsAPI = function(dropdown) {
           console.log(res);
           // document.getElementById("printme").innerHTML = res;
           var table = document.getElementById("firstTabOverall");
-
+          debugger
+          var childNodes = document.getElementById("firstTabOverall").childNodes[3];
+          var new_tbody = document.createElement('tbody');
           // helper function        
           function addCell(tr, text) {
                   var td = tr.insertCell();
                   td.innerHTML = text;
                   return td;
               }
-          // var thead = table.createTHead();
-          // var headerRow = thead.insertRow();
-          // addCell(headerRow, 'Source');
-          // addCell(headerRow, 'Title');
-          // addCell(headerRow, 'Description');
 
+          var set1 = new Set(); 
           // insert data
           response.articles.forEach(function (article) {
-              var row = table.insertRow();
+
               var tit = article.title;
               var yooareel = tit.link(article.url);
-              addCell(row, article.source.name);
-              addCell(row, yooareel);
-              addCell(row, article.description);
+              if(!set1.has(article.source.name)){
+                var row = new_tbody.insertRow();
+                addCell(row, article.source.name);
+                addCell(row, yooareel);
+                addCell(row, article.description);
+                set1.add(article.source.name);
+              }
+
           });
+          childNodes.parentNode.replaceChild(new_tbody, childNodes)
         })
 
 
