@@ -24,6 +24,8 @@
     <title>Spatial Composition</title>
     <script src="Chart.min.js"></script>
     <script src="utils.js"></script>
+    <script src='config.js'></script>
+
     <link href="style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="symbolCompanyMapping.json"></script>
 
@@ -107,7 +109,7 @@ var getJSON = function(url, callback) {
 var dow="";
 var dates = [];
 
-getJSON('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=DOW&apikey=LOLUWISH',
+getJSON('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=SPY&apikey='+config.stocks_api_key,
 function(err, data) {
   if (err !== null) {
     console.log('Something went wrong while parsing your JSON API:' + err);
@@ -122,6 +124,11 @@ function(err, data) {
     }
 
     dates= dates.reverse();
+    prices=prices.reverse();
+
+    dates=dates.slice(70,100);
+    prices=prices.slice(70,100);
+
     graphme(dates, prices);
     dow=prices;
   }
@@ -136,7 +143,7 @@ updateTreeSelection = function() {
     // idx=parseInt(idx);
     
 
-    var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+document.getElementById("stockSymbol").value+'&apikey=LOLUWISH'
+    var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+document.getElementById("stockSymbol").value+'&apikey='+config.stocks_api_key
     getJSON(url,
     function(err, data) {
       if (err !== null) {
@@ -150,7 +157,13 @@ updateTreeSelection = function() {
           dates.push(time);
           prices.push(series[time]["4. close"]);
         }
+
         dates= dates.reverse();
+        prices=prices.reverse();
+        
+        dates=dates.slice(70,100);
+        prices=prices.slice(70,100);
+
         graphme(dates, dow, prices);
       }
         
@@ -173,8 +186,11 @@ callNewsAPI = function(symbol, date) {
               'from='+date+'&' +
               'to='+date+'&' +
               'sortBy=popularity&' +
-              'apiKey=LOLUWISH';
+              'apiKey='+config.news_api_key;
 
+
+
+                
     var req = new Request(url);
     var res = ""
     fetch(req)

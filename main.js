@@ -1,7 +1,7 @@
 
 function graphme(dates, dow, prices=[]) {
   var stocks = [{
-    label: 'Dow Jones',
+    label: 'S&P 500',
         backgroundColor: window.chartColors.red,
         borderColor: window.chartColors.red,
         data: dow,
@@ -50,7 +50,7 @@ function graphme(dates, dow, prices=[]) {
     },
     options: {
       onClick: function(e) {
-        dataset_idx=myLine.getElementAtEvent(e)[0]._datasetIndex
+        //dataset_idx=myLine.getElementAtEvent(e)[0]._datasetIndex
         date_idx=myLine.getElementAtEvent(e)[0]._index
         // console.log(xLabel.format('MMM YYYY'));
         // alert("clicked x-axis area: " + xLabel.format('MMM YYYY'));
