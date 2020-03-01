@@ -7,8 +7,9 @@ Analyze historical trends for any stock based on contextual, time-relevant news
 ### Problem 
 Scenario: We would like to purchase Microsoft (MSFT) stocks, because it recently plunged. To decide whether this would be a good investment, we want to investigate:
 
-1. Points where MSFT has dropped significantly in the past, and
-2. Whether MSFT climbs back (quickly) after a drop like this.
+
+  1. Points where MSFT has dropped significantly in the past, what caused the drop, and
+  2. Whether MSFT climbed back (quickly) after a drop, and what caused the rise.
 
 While existing financial news sources, like MarketWatch or Robinhood, do show stock prices over time, they do not have readily-available historical news information about a stock. To find such trends, we must separately query for news about the stock over a relevant period of time in a news source or search engine.
 
