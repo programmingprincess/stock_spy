@@ -89,7 +89,6 @@ var getJSON = function(url, callback) {
     };
     xhr.send();
 };
-
 //api keys 
 // 1. open: "152.4100"
 // 2. high: "163.7100"
@@ -101,7 +100,6 @@ var getJSON = function(url, callback) {
 // 8. split coefficient: "1.0000"
 
 var dow="";
-var dates = [];
 
 getJSON('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=DOW&apikey=APIKEY',
 function(err, data) {
@@ -109,7 +107,7 @@ function(err, data) {
     console.log('Something went wrong while parsing your JSON API:' + err);
   } else {
     series=data["Time Series (Daily)"];
-    dates = [];
+    var dates = [];
     var prices= [];
 
     for (var time in series) {
@@ -117,7 +115,6 @@ function(err, data) {
       prices.push(series[time]["4. close"]);
     }
 
-    dates=dates.reverse();
     graphme(dates, prices);
     dow=prices;
   }
@@ -138,15 +135,14 @@ updateTreeSelection = function() {
         console.log('Something went wrong while parsing your JSON API:' + err);
       } else {
         series=data["Time Series (Daily)"];
-        dates=[];
+        var dates = [];
         var prices= [];
 
         for (var time in series) {
           dates.push(time);
-
           prices.push(series[time]["4. close"]);
         }
-        dates=dates.reverse();
+
         graphme(dates, dow, prices);
       }
         
@@ -156,14 +152,14 @@ updateTreeSelection = function() {
 }
 
 
-callNewsAPI = function(symbol, date) {
-    // symbol = document.getElementById("myText").value;
-    // date = document.getElementById("myDate").value;
+callNewsAPI = function(dropdown) {
+    searchTerm = document.getElementById("myText").value;
+    date = document.getElementById("myDate").value;
     // searchTerm = dropdown.value;
 
 
     var url = 'http://newsapi.org/v2/everything?' +
-              'q='+symbol+'&' +
+              'q='+searchTerm+'&' +
               // 'to=2020-01-18&' +
               // 'to=2020-01-18&' +
               'from='+date+'&' +
@@ -183,6 +179,7 @@ callNewsAPI = function(symbol, date) {
           console.log(res);
           // document.getElementById("printme").innerHTML = res;
           var table = document.getElementById("firstTabOverall");
+          debugger
           var childNodes = document.getElementById("firstTabOverall").childNodes[3];
           var new_tbody = document.createElement('tbody');
           // helper function        
