@@ -1,5 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even){background-color: #f2f2f2}
+    
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    </style>
 <head>
     <meta charset="UTF-8">
     <title>Spatial Composition</title>
@@ -10,17 +28,21 @@
 <h1 class = "title">Stock History </h1>
 
 <h3>1. Find relevant news: </h3>
-<!-- <select id="tree-dropdown" onchange="updateTreeSelection(this)">
-  <option value="Microsoft" id="tree0">Tree 0</option>
-  <option value="Apple" id="tree1">Tree 1</option>
-  <option value="Google" id="tree2">Tree 2</option>
-  <option value="Facebook" id="tree2">Tree 3</option>
-</select> -->
 Company: <input type="text" id="myText" value="Company name">
+Date: <input type="text" id="myDate" value="YYYY-MM-DD">
 <button onclick = "updateTreeSelection()"> Find results</button>
 
 
 <div id="printme"></div>
+<div class="col-md-6">
+  <table id="firstTabOverall">
+      <tr>
+          <th>Source</th>
+          <th>Title</th>
+          <th>Description</th>
+        </tr>
+  </table>
+</div>
 
 </body>
 
@@ -31,13 +53,17 @@ updateTreeSelection = function(dropdown) {
     // tree_id=dropdown.value;
     // idx=tree_id.substring(4);
     // idx=parseInt(idx);
-    searchTerm = document.getElementById("myText").value
+    searchTerm = document.getElementById("myText").value;
+    date = document.getElementById("myDate").value;
     // searchTerm = dropdown.value;
 
 
     var url = 'http://newsapi.org/v2/everything?' +
               'q='+searchTerm+'&' +
-              'from=2020-02-15&' +
+              // 'to=2020-01-18&' +
+              // 'to=2020-01-18&' +
+              'from='+date+'&' +
+              'to='+date+'&' +
               'sortBy=popularity&';
 
     var req = new Request(url);
@@ -46,10 +72,32 @@ updateTreeSelection = function(dropdown) {
         .then(function(response) {
           return response.json();
         }).then(response=>{
+          // debugger
           res = response.articles[0].description;
           // debugger
           console.log(res);
-          document.getElementById("printme").innerHTML = res;
+          // document.getElementById("printme").innerHTML = res;
+          var table = document.getElementById("firstTabOverall");
+
+          // helper function        
+          function addCell(tr, text) {
+                  var td = tr.insertCell();
+                  td.textContent = text;
+                  return td;
+              }
+          var thead = table.createTHead();
+          var headerRow = thead.insertRow();
+          addCell(headerRow, 'Source');
+          addCell(headerRow, 'Title');
+          addCell(headerRow, 'Description');
+
+          // insert data
+          response.articles.forEach(function (article) {
+              var row = table.insertRow();
+              addCell(row, article.source.name);
+              addCell(row, article.title);
+              addCell(row, article.description);
+          });
         })
 
 
