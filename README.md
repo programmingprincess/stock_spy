@@ -30,6 +30,7 @@ var config = { // this should be const instead if you're using ES6 standards
   stocks_api_key: 'INSERT_KEY_HERE'
 }
 ```
+This project is licensed under the terms of the MIT license.
 
 ### TODO
 
