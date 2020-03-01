@@ -49,6 +49,8 @@ function graphme(dates, dow, prices=[]) {
       responsive: true,
       title: {
         display: true,
+        fontsize: 15,
+        fontcolor: "#000",
         text: '30-Day Stock Prices'
       },
       // tooltips: {
