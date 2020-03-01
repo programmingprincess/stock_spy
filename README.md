@@ -15,3 +15,6 @@
 - [x] Change page title
 - [ ] Add search term indicator
 - [ ] Better name!! 
+- [ ] Catch clicking outside of lines
+- [x] Center chart 
+- [ ] Color-blind friendly color palette
