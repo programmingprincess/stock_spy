@@ -183,58 +183,76 @@ callNewsAPI = function(symbol, date) {
   set1.add("Bloomberg");
   set1.add("Indianexpress.com");
   set1.add("Forbes.com");
+  set1.add("Ndtv.com");
+  set1.add("Autoblog.comhttps");
+  set1.add("Japantimes.co.jp");
+  set1.add("Foxbusiness.com");
+  set1.add("Reuters");
+  set1.add("Business Insider");
+  set1.add("Investing.com");
+  set1.add("Yahoo.com");
+
+
     // searchTerm = document.getElementById("myText").value;
     // date = document.getElementById("myDate").value;
     // searchTerm = dropdown.value;
-    companyName = mappings[symbol];
+  var companyName = ""
+  if(symbol=="MIMIC"){
+    companyName = "Stock Market";
+  }
+  else{  
+    companyName = mappings[symbol];}
 
-    var url = 'http://newsapi.org/v2/everything?' +
-              'q='+companyName+'&' +
-              // 'to=2020-01-18&' +
-              // 'to=2020-01-18&' +
-              'from='+date+'&' +
-              'to='+date+'&' +
-              'sortBy=popularity&' +
-              'apiKey='+config.news_api_key;
-                
-    var req = new Request(url);
-    var res = ""
-    fetch(req)
-        .then(function(response) {
-          return response.json();
-        }).then(response=>{
-          // debugger
-          res = response.articles[0].description;
-          // debugger
-          console.log(res);
-          // document.getElementById("printme").innerHTML = res;
-          var table = document.getElementById("firstTabOverall");
-          var childNodes = document.getElementById("firstTabOverall").childNodes[3];
-          var new_tbody = document.createElement('tbody');
-          // helper function        
-          function addCell(tr, text) {
-                  var td = tr.insertCell();
-                  td.innerHTML = text;
-                  return td;
-              }
 
-         
-          // insert data
-          response.articles.forEach(function (article) {
+  var url = 'http://newsapi.org/v2/everything?' +
+            'q='+companyName+'&' +
+            // 'to=2020-01-18&' +
+            // 'to=2020-01-18&' +
+            'from='+date+'&' +
+            'to='+date+'&' +
+            'sortBy=popularity&' +
+            'apiKey='+config.news_api_key;
+              
+  var req = new Request(url);
+  var res = ""
+  fetch(req)
+      .then(function(response) {
+        return response.json();
+      }).then(response=>{
+        // debugger
+        res = response.articles[0].description;
+        // debugger
+        console.log(res);
+        // document.getElementById("printme").innerHTML = res;
+        var table = document.getElementById("firstTabOverall");
+        var childNodes = document.getElementById("firstTabOverall").childNodes[3];
+        var new_tbody = document.createElement('tbody');
+        // helper function        
+        function addCell(tr, text) {
+                var td = tr.insertCell();
+                td.innerHTML = text;
+                return td;
+            }
 
-              var tit = article.title;
-              var yooareel = tit.link(article.url);
-              if(set1.has(article.source.name)){
-                var row = new_tbody.insertRow();
-                addCell(row, article.source.name);
-                addCell(row, yooareel);
-                addCell(row, article.description);
-                set1.add(article.source.name);
-              }
+        
+        // insert data
+        // if (response.articles.length>7){
+        //   response.articles = response.articles.slice(0,6);
+        // }
+        response.articles.forEach(function (article) {
+            var tit = article.title;
+            var yooareel = tit.link(article.url);
+            if(set1.has(article.source.name)){
+              var row = new_tbody.insertRow();
+              addCell(row, article.source.name);
+              addCell(row, yooareel);
+              addCell(row, article.description);
+            //   set1.add(article.source.name);
+             }
 
-          });
-          childNodes.parentNode.replaceChild(new_tbody, childNodes)
-        })
+        });
+        childNodes.parentNode.replaceChild(new_tbody, childNodes)
+      })
 }
 
 </script>
