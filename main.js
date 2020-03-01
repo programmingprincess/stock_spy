@@ -1,5 +1,6 @@
 
 function graphme(dates, dow, prices=[]) {
+  var companyChecking = false;
   var stocks = [{
     label: 'S&P 500',
         backgroundColor: window.chartColors.red,
@@ -9,6 +10,7 @@ function graphme(dates, dow, prices=[]) {
   }];
 
   if (prices.length > 0) {
+    companyChecking=true
     stocks.push({
     label: document.getElementById("stockSymbol").value,
         backgroundColor: window.chartColors.blue,
@@ -57,6 +59,14 @@ function graphme(dates, dow, prices=[]) {
 
         var date = dates[date_idx];
         var symbol =  document.getElementById("stockSymbol").value;
+        if(companyChecking==true){
+          let dowChange = (Math.abs(dow[date_idx-1]-dow[date_idx])/dow[date_idx-1])*100
+          let compChange = (Math.abs(prices[date_idx-1]-prices[date_idx])/prices[date_idx-1])*100
+          if (Math.abs(dowChange-compChange)<1){
+            symbol = "MIMIC"
+          }
+          debugger
+        }
 
         callNewsAPI(symbol, date);
       },
