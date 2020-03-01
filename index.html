@@ -24,6 +24,7 @@
     <title>Spatial Composition</title>
     <script src="Chart.min.js"></script>
     <script src="utils.js"></script>
+    <script src="config.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="symbolCompanyMapping.json"></script>
 
@@ -107,7 +108,7 @@ var getJSON = function(url, callback) {
 var dow="";
 var dates = [];
 
-getJSON('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=DOW&apikey=LOLUWISH',
+getJSON('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=DOW&apikey='+config.stocks_api_key,
 function(err, data) {
   if (err !== null) {
     console.log('Something went wrong while parsing your JSON API:' + err);
@@ -136,7 +137,7 @@ updateTreeSelection = function() {
     // idx=parseInt(idx);
     
 
-    var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+document.getElementById("stockSymbol").value+'&apikey=LOLUWISH'
+    var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+document.getElementById("stockSymbol").value+'&apikey='+config.stocks_api_key
     getJSON(url,
     function(err, data) {
       if (err !== null) {
@@ -161,6 +162,15 @@ updateTreeSelection = function() {
 
 
 callNewsAPI = function(symbol, date) {
+  var set1 = new Set(); 
+  set1.add("Coinspeaker.com");
+  set1.add("Seekingalpha.com");
+  set1.add("Nasdaq.com");
+  set1.add("Businesswire.com");
+  set1.add("Marketwatch.com");
+  set1.add("Bloomberg");
+  set1.add("Indianexpress.com");
+  set1.add("Forbes.com");
     // searchTerm = document.getElementById("myText").value;
     // date = document.getElementById("myDate").value;
     // searchTerm = dropdown.value;
@@ -173,7 +183,7 @@ callNewsAPI = function(symbol, date) {
               'from='+date+'&' +
               'to='+date+'&' +
               'sortBy=popularity&' +
-              'apiKey=LOLUWISH';
+              'apiKey='+config.news_api_key;
 
     var req = new Request(url);
     var res = ""
@@ -196,13 +206,13 @@ callNewsAPI = function(symbol, date) {
                   return td;
               }
 
-          var set1 = new Set(); 
+         
           // insert data
           response.articles.forEach(function (article) {
 
               var tit = article.title;
               var yooareel = tit.link(article.url);
-              if(!set1.has(article.source.name)){
+              if(set1.has(article.source.name)){
                 var row = new_tbody.insertRow();
                 addCell(row, article.source.name);
                 addCell(row, yooareel);
