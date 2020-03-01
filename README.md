@@ -2,7 +2,7 @@
 
 Analyze historical trends for any stock based on contextual, time-relevant news
 
-![](name-of-giphy.gif)
+![](stockspy_demo.gif)
 
 ### Problem 
 Scenario: We would like to purchase Microsoft (MSFT) stocks, because it recently plunged. To decide whether this would be a good investment, we want to investigate:
