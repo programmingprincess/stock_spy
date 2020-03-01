@@ -18,35 +18,12 @@ function graphme(dates, dow, prices=[]) {
     })
   }
 
-  var MONTHS = dates;
   var config = {
     type: 'line',
     data: {
       // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       labels: dates,
       datasets: stocks,
-      // datasets: [{
-      //   label: 'My First dataset',
-      //   backgroundColor: window.chartColors.red,
-      //   borderColor: window.chartColors.red,
-      //   // data: [
-      //   //   randomScalingFactor(),
-      //   //   randomScalingFactor(),
-      //   //   randomScalingFactor(),
-      //   //   randomScalingFactor(),
-      //   //   randomScalingFactor(),
-      //   //   randomScalingFactor(),
-      //   //   randomScalingFactor()
-      //   // ],
-      //   data: prices,
-      //   fill: false,
-      // }, {
-      //   label: 'My Second dataset',
-      //   fill: false,
-      //   backgroundColor: window.chartColors.blue,
-      //   borderColor: window.chartColors.blue,
-      //   data: prices
-      // }]
     },
     options: {
       onClick: function(e) {
@@ -60,11 +37,11 @@ function graphme(dates, dow, prices=[]) {
 
         callNewsAPI(symbol, date);
       },
-      // responsive: true,
-      // title: {
-      //   display: true,
-      //   text: 'Chart.js Line Chart'
-      // },
+      responsive: true,
+      title: {
+        display: true,
+        text: '30-Day Stock Prices'
+      },
       // tooltips: {
       //   mode: 'index',
       //   intersect: false,
@@ -73,22 +50,26 @@ function graphme(dates, dow, prices=[]) {
       //   mode: 'nearest',
       //   intersect: true
       // },
-      // scales: {
-      //   x: {
-      //     display: true,
-      //     scaleLabel: {
-      //       display: true,
-      //       labelString: 'Month'
-      //     }
-      //   },
-      //   y: {
-      //     display: true,
-      //     scaleLabel: {
-      //       display: true,
-      //       labelString: 'Value'
-      //     }
-      //   }
-      // }
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Adjusted Closing Price ($)'
+          }
+        }],
+        xAxes: [{
+          ticks: {
+              autoSkip: true,
+              maxTicksLimit: 8,
+              maxRotation: 0,
+              minRotation: 0
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Date'
+          }
+        }]
+      }    
     }
   };
 
@@ -99,62 +80,62 @@ function graphme(dates, dow, prices=[]) {
   
   window.myLine = new Chart(ctx, config);
 
-  document.getElementById('randomizeData').addEventListener('click', function() {
-    config.data.datasets.forEach(function(dataset) {
-      dataset.data = dataset.data.map(function() {
-        return randomScalingFactor();
-      });
+  // document.getElementById('randomizeData').addEventListener('click', function() {
+  //   config.data.datasets.forEach(function(dataset) {
+  //     dataset.data = dataset.data.map(function() {
+  //       return randomScalingFactor();
+  //     });
 
-    });
+  //   });
 
-    window.myLine.update();
-  });
+  //   window.myLine.update();
+  // });
 
-  var colorNames = Object.keys(window.chartColors);
-  document.getElementById('addDataset').addEventListener('click', function() {
-    var colorName = colorNames[config.data.datasets.length % colorNames.length];
-    var newColor = window.chartColors[colorName];
-    var newDataset = {
-      label: 'Dataset ' + config.data.datasets.length,
-      backgroundColor: newColor,
-      borderColor: newColor,
-      data: [],
-      fill: false
-    };
+  // var colorNames = Object.keys(window.chartColors);
+  // document.getElementById('addDataset').addEventListener('click', function() {
+  //   var colorName = colorNames[config.data.datasets.length % colorNames.length];
+  //   var newColor = window.chartColors[colorName];
+  //   var newDataset = {
+  //     label: 'Dataset ' + config.data.datasets.length,
+  //     backgroundColor: newColor,
+  //     borderColor: newColor,
+  //     data: [],
+  //     fill: false
+  //   };
 
-    for (var index = 0; index < config.data.labels.length; ++index) {
-      newDataset.data.push(randomScalingFactor());
-    }
+  //   for (var index = 0; index < config.data.labels.length; ++index) {
+  //     newDataset.data.push(randomScalingFactor());
+  //   }
 
-    config.data.datasets.push(newDataset);
-    window.myLine.update();
-  });
+  //   config.data.datasets.push(newDataset);
+  //   window.myLine.update();
+  // });
 
-  document.getElementById('addData').addEventListener('click', function() {
-    if (config.data.datasets.length > 0) {
-      var month = MONTHS[config.data.labels.length % MONTHS.length];
-      config.data.labels.push(month);
+  // document.getElementById('addData').addEventListener('click', function() {
+  //   if (config.data.datasets.length > 0) {
+  //     var month = MONTHS[config.data.labels.length % MONTHS.length];
+  //     config.data.labels.push(month);
 
-      config.data.datasets.forEach(function(dataset) {
-        dataset.data.push(randomScalingFactor());
-      });
+  //     config.data.datasets.forEach(function(dataset) {
+  //       dataset.data.push(randomScalingFactor());
+  //     });
 
-      window.myLine.update();
-    }
-  });
+  //     window.myLine.update();
+  //   }
+  // });
 
-  document.getElementById('removeDataset').addEventListener('click', function() {
-    config.data.datasets.splice(0, 1);
-    window.myLine.update();
-  });
+  // document.getElementById('removeDataset').addEventListener('click', function() {
+  //   config.data.datasets.splice(0, 1);
+  //   window.myLine.update();
+  // });
 
-  document.getElementById('removeData').addEventListener('click', function() {
-    config.data.labels.splice(-1, 1); // remove the label first
+  // document.getElementById('removeData').addEventListener('click', function() {
+  //   config.data.labels.splice(-1, 1); // remove the label first
 
-    config.data.datasets.forEach(function(dataset) {
-      dataset.data.pop();
-    });
+  //   config.data.datasets.forEach(function(dataset) {
+  //     dataset.data.pop();
+  //   });
 
-    window.myLine.update();
-  });  
+  //   window.myLine.update();
+  // });  
 }

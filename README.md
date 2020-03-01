@@ -3,13 +3,15 @@
 
 ### TODO
 
-- [] Weird rendering (before clicking date)
-- [] Remove duplicate code for DOW vs STOCK
+- [ ] Weird rendering (before clicking date)
+- [ ] Remove duplicate code for DOW vs STOCK
 
-- [] Edge cases (symbol mapping not available, no news?)
-- [] Alter x and y-axes for dates
-- [] Axis labels
-- [] Better ranking of news API search results 
-- [] Search for news based on baseline comparison (difference from S&P and DOW)
-- [] Remove unused buttons
-- [] Change page title
+- [ ] Edge cases (symbol mapping not available, no news?)
+- [x] Alter x and y-axes for dates
+- [x] Axis labels
+- [x] Better ranking of news API search results 
+- [x] Search for news based on baseline comparison (difference from S&P and DOW)
+- [x] Remove unused buttons
+- [x] Change page title
+- [ ] Add search term indicator
+- [ ] Better name!! 
