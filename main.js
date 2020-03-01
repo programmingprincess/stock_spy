@@ -3,8 +3,8 @@ function graphme(dates, dow, prices=[]) {
   var companyChecking = false;
   var stocks = [{
     label: 'S&P 500',
-        backgroundColor: window.chartColors.red,
-        borderColor: window.chartColors.red,
+        backgroundColor: "#e41a1c",
+        borderColor: "#e41a1c",
         data: dow,
         fill: false
   }];
@@ -13,8 +13,8 @@ function graphme(dates, dow, prices=[]) {
     companyChecking=true
     stocks.push({
     label: document.getElementById("stockSymbol").value,
-        backgroundColor: window.chartColors.blue,
-        borderColor: window.chartColors.blue,
+        backgroundColor: "#377eb8",
+        borderColor: "#377eb8",
         data: prices,
         fill: false
     })
@@ -41,12 +41,13 @@ function graphme(dates, dow, prices=[]) {
           let compChange = (Math.abs(prices[date_idx-1]-prices[date_idx])/prices[date_idx-1])*100
 
           if (Math.abs(dowChange-compChange)<1){
-            console.log(Math.abs(dowChange-compChange).toFixed(3));
-            document.getElementById("searchInfo").innerHTML="Showing aggregated stock market news. " +symbol+"'s trend mimicked S&P 500 on "+date.toString();
+            console.log(Math.abs(dowChange-compChange).toFixed(2));
+            document.getElementById("searchInfo").innerHTML=symbol+" Relative Trend: Mimics S&P 500. <br> Showing aggregated stock market news for " +date.toString() ;
             symbol = "MIMIC"
           }
           else{
-            document.getElementById("searchInfo").innerHTML="Showing news specific to "+symbol+", it's trend differed from S&P 500 by "+Math.abs(dowChange-compChange).toFixed(3)+"% points."
+            var percent=Math.abs(dowChange-compChange).toFixed(2)
+            document.getElementById("searchInfo").innerHTML=symbol+" Relative Trend: <b>"+percent+"%</b> difference from S&P 500. <br> Showing news specific to "+symbol+" for "+date.toString() ;
           }
 
         }
@@ -56,8 +57,7 @@ function graphme(dates, dow, prices=[]) {
       responsive: true,
       title: {
         display: true,
-        fontsize: 15,
-        fontcolor: "#000",
+        fontSize: 18,
         text: '30-Day Stock Prices'
       },
       // tooltips: {
