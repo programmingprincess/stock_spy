@@ -39,9 +39,16 @@ function graphme(dates, dow, prices=[]) {
         if(companyChecking==true){
           let dowChange = (Math.abs(dow[date_idx-1]-dow[date_idx])/dow[date_idx-1])*100
           let compChange = (Math.abs(prices[date_idx-1]-prices[date_idx])/prices[date_idx-1])*100
+
           if (Math.abs(dowChange-compChange)<1){
+            console.log(Math.abs(dowChange-compChange).toFixed(3));
+            document.getElementById("searchInfo").innerHTML="Showing aggregated stock market news. " +symbol+"'s trend mimicked S&P 500 on "+date.toString();
             symbol = "MIMIC"
           }
+          else{
+            document.getElementById("searchInfo").innerHTML="Showing news specific to "+symbol+", it's trend differed from S&P 500 by "+Math.abs(dowChange-compChange).toFixed(3)+"% points."
+          }
+
         }
 
         callNewsAPI(symbol, date);
