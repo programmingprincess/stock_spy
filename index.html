@@ -7,15 +7,17 @@
 
 </head>
 <body>
-<h1 class = "title">ClonArch: Visualizing clonal architecture </h1>
+<h1 class = "title">Stock History </h1>
 
-<h3>1. Select a tree: </h3>
-<select id="tree-dropdown" onchange="updateTreeSelection(this)">
-  <option value="tree0" id="tree0">Tree 0</option>
-  <option value="tree1" id="tree1">Tree 1</option>
-  <option value="tree2" id="tree2">Tree 2</option>
-  <option value="tree3" id="tree2">Tree 3</option>
-</select>
+<h3>1. Find relevant news: </h3>
+<!-- <select id="tree-dropdown" onchange="updateTreeSelection(this)">
+  <option value="Microsoft" id="tree0">Tree 0</option>
+  <option value="Apple" id="tree1">Tree 1</option>
+  <option value="Google" id="tree2">Tree 2</option>
+  <option value="Facebook" id="tree2">Tree 3</option>
+</select> -->
+Company: <input type="text" id="myText" value="Company name">
+<button onclick = "updateTreeSelection()"> Find results</button>
 
 
 <div id="printme"></div>
@@ -26,11 +28,31 @@
 <script>
 
 updateTreeSelection = function(dropdown) {
-    tree_id=dropdown.value;
-    idx=tree_id.substring(4);
-    idx=parseInt(idx);
+    // tree_id=dropdown.value;
+    // idx=tree_id.substring(4);
+    // idx=parseInt(idx);
+    searchTerm = document.getElementById("myText").value
+    // searchTerm = dropdown.value;
 
-    document.getElementById("printme").innerHTML = "LOl" + idx;
+
+    var url = 'http://newsapi.org/v2/everything?' +
+              'q='+searchTerm+'&' +
+              'from=2020-02-15&' +
+              'sortBy=popularity&';
+
+    var req = new Request(url);
+    var res = ""
+    fetch(req)
+        .then(function(response) {
+          return response.json();
+        }).then(response=>{
+          res = response.articles[0].description;
+          // debugger
+          console.log(res);
+          document.getElementById("printme").innerHTML = res;
+        })
+
+
 }
 
 </script>
