@@ -100,6 +100,7 @@ var getJSON = function(url, callback) {
 // 8. split coefficient: "1.0000"
 
 var dow="";
+var dates = [];
 
 getJSON('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=DOW&apikey=APIKEY',
 function(err, data) {
@@ -107,7 +108,7 @@ function(err, data) {
     console.log('Something went wrong while parsing your JSON API:' + err);
   } else {
     series=data["Time Series (Daily)"];
-    var dates = [];
+    dates = [];
     var prices= [];
 
     for (var time in series) {
@@ -115,6 +116,7 @@ function(err, data) {
       prices.push(series[time]["4. close"]);
     }
 
+    dates= dates.reverse();
     graphme(dates, prices);
     dow=prices;
   }
@@ -135,14 +137,14 @@ updateTreeSelection = function(dropdown) {
         console.log('Something went wrong while parsing your JSON API:' + err);
       } else {
         series=data["Time Series (Daily)"];
-        var dates = [];
+        dates = [];
         var prices= [];
 
         for (var time in series) {
           dates.push(time);
           prices.push(series[time]["4. close"]);
         }
-
+        dates= dates.reverse();
         graphme(dates, dow, prices);
       }
         
@@ -152,20 +154,20 @@ updateTreeSelection = function(dropdown) {
 }
 
 
-callNewsAPI = function(dropdown) {
-    searchTerm = document.getElementById("myText").value;
-    date = document.getElementById("myDate").value;
+callNewsAPI = function(symbol, date) {
+    // searchTerm = document.getElementById("myText").value;
+    // date = document.getElementById("myDate").value;
     // searchTerm = dropdown.value;
 
 
     var url = 'http://newsapi.org/v2/everything?' +
-              'q='+searchTerm+'&' +
+              'q='+symbol+'&' +
               // 'to=2020-01-18&' +
               // 'to=2020-01-18&' +
               'from='+date+'&' +
               'to='+date+'&' +
               'sortBy=popularity&' +
-              'apiKey=APIKEY';
+              'apiKey=LOLUWISH';
 
     var req = new Request(url);
     var res = ""
@@ -179,7 +181,6 @@ callNewsAPI = function(dropdown) {
           console.log(res);
           // document.getElementById("printme").innerHTML = res;
           var table = document.getElementById("firstTabOverall");
-          debugger
           var childNodes = document.getElementById("firstTabOverall").childNodes[3];
           var new_tbody = document.createElement('tbody');
           // helper function        
