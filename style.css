@@ -17,7 +17,7 @@ tr:nth-child(even){
 }
 
 th {
-  background-color: #4daf4a;
+  background-color: #51AD50;
   color: white;
 }
 .boldClass{
@@ -28,10 +28,10 @@ th {
 
 .stock_chart {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .canvas_container {
   display: inline-block;
-  width: 90%;
+  width: 65%;
 }

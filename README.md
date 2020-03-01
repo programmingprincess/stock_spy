@@ -13,7 +13,7 @@
 - [x] Search for news based on baseline comparison (difference from S&P and DOW)
 - [x] Remove unused buttons
 - [x] Change page title
-- [ ] Add search term indicator
+- [x] Add search term indicator
 - [ ] Better name!! 
 - [ ] Catch clicking outside of lines
 - [x] Center chart 

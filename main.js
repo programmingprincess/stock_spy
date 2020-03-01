@@ -3,8 +3,8 @@ function graphme(dates, dow, prices=[]) {
   var companyChecking = false;
   var stocks = [{
     label: 'S&P 500',
-        backgroundColor: "#e41a1c",
-        borderColor: "#e41a1c",
+        backgroundColor: window.chartColors.red,
+        borderColor: window.chartColors.red,
         data: dow,
         fill: false
   }];
@@ -13,8 +13,8 @@ function graphme(dates, dow, prices=[]) {
     companyChecking=true
     stocks.push({
     label: document.getElementById("stockSymbol").value,
-        backgroundColor: "#377eb8",
-        borderColor: "#377eb8",
+        backgroundColor: window.chartColors.blue,
+        borderColor: window.chartColors.blue,
         data: prices,
         fill: false
     })
@@ -72,7 +72,8 @@ function graphme(dates, dow, prices=[]) {
         yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Adjusted Closing Price ($)'
+            labelString: 'Adjusted Closing Price ($)',
+            fontSize: 15
           }
         }],
         xAxes: [{
@@ -80,11 +81,12 @@ function graphme(dates, dow, prices=[]) {
               autoSkip: true,
               maxTicksLimit: 8,
               maxRotation: 0,
-              minRotation: 0
+              minRotation: 0,
           },
           scaleLabel: {
             display: true,
-            labelString: 'Date'
+            labelString: 'Date',
+            fontSize: 15
           }
         }]
       }    
