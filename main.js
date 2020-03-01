@@ -42,7 +42,6 @@ function graphme(dates, dow, prices=[]) {
           if (Math.abs(dowChange-compChange)<1){
             symbol = "MIMIC"
           }
-          debugger
         }
 
         callNewsAPI(symbol, date);
