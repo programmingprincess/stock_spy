@@ -25,19 +25,23 @@
     <script src="Chart.min.js"></script>
     <script src="utils.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css">
-
+    <script type="text/javascript" src="symbolCompanyMapping.json"></script>
 </head>
 <body>
 <h1 class = "title">Stock History </h1>
 
-
+<h3>1. Find relevant news: </h3>
+Stock Symbol: <input type="text" id="stockSymbol" value="AAPL">
+Date: <input type="text" id="myDate" value="YYYY-MM-DD">
+<button onclick = "updateTreeSelection()"> Find results</button>
+<!-- 
 <h3>1. Select a tree: </h3>
 <select id="tree-dropdown" onchange="updateTreeSelection(this)">
   <option value="msft" id="tree0">Tree 0</option>
   <option value="aapl" id="tree1">Tree 1</option>
   <option value="crm" id="tree2">Tree 2</option>
   <option value="tree3" id="tree2">Tree 3</option>
-</select>
+</select> -->
   <div style="width:75%;">
     <canvas id="canvas"></canvas>
   </div>
@@ -48,11 +52,6 @@
   <button id="removeDataset">Remove Dataset</button>
   <button id="addData">Add Data</button>
   <button id="removeData">Remove Data</button>
-
-<h3>1. Find relevant news: </h3>
-Company: <input type="text" id="myText" value="Company name">
-Date: <input type="text" id="myDate" value="YYYY-MM-DD">
-<button onclick = "callNewsAPI()"> Find results</button>
 
 
 
@@ -74,6 +73,7 @@ Date: <input type="text" id="myDate" value="YYYY-MM-DD">
 
 
 <script type="text/javascript" src="main.js"></script>
+
 <script>
 var getJSON = function(url, callback) {
     var xhr = new XMLHttpRequest();
@@ -123,13 +123,13 @@ function(err, data) {
 
 
 
-updateTreeSelection = function(dropdown) {
-    tree_id=dropdown.value;
-    idx=tree_id.substring(4);
-    idx=parseInt(idx);
+updateTreeSelection = function() {
+    // tree_id=dropdown.value;
+    // idx=tree_id.substring(4);
+    // idx=parseInt(idx);
     
-
-    getJSON('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=MSFT&apikey=APIKEY',
+    var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+document.getElementById("stockSymbol").value+'&apikey=demo'
+    getJSON(url,
     function(err, data) {
       if (err !== null) {
         console.log('Something went wrong while parsing your JSON API:' + err);
@@ -148,12 +148,13 @@ updateTreeSelection = function(dropdown) {
         
     });
     // document.getElementById("printme").innerHTML = "LOl" + idx;
-
+    callNewsAPI();
 }
 
 
 callNewsAPI = function(dropdown) {
-    searchTerm = document.getElementById("myText").value;
+    searchTerm = document.getElementById("stockSymbol").value;
+    // searchTerm = mappings[searchTerm];
     date = document.getElementById("myDate").value;
     // searchTerm = dropdown.value;
 
