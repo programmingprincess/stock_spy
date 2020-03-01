@@ -20,6 +20,17 @@ Stock Spy has the following capabilities:
 
 Our algorithm measures the relative difference between the S&P 500 trend and the stock we're interested in, normalized by their previous closing value. If the relative difference is low enough to reliably see that it's mimicking the markets, aggregated market news from that day is shown to us instead.
 
+
+### Set Up
+Please create a config.js file in the root of this folder, locally, to store your secret API keys. 
+
+```
+var config = { // this should be const instead if you're using ES6 standards
+  news_api_key: 'INSERT_KEY_HERE',
+  stocks_api_key: 'INSERT_KEY_HERE'
+}
+```
+
 ### TODO
 
 - [ ] Weird rendering (before clicking date)
@@ -37,3 +48,9 @@ Our algorithm measures the relative difference between the S&P 500 trend and the
 - [ ] Catch clicking outside of lines
 - [x] Center chart 
 - [ ] Color-blind friendly color palette
+
+
+#### Libraries and APIs 
+* ChartJS: https://github.com/chartjs/Chart.js
+* News API: https://newsapi.org/
+* Alpha Vantage: https://www.alphavantage.co/
