@@ -35,7 +35,7 @@ This project is licensed under the terms of the MIT license.
 
 ### TODO
 
-- [ ] Weird rendering (before clicking date)
+- [x] Weird rendering (before clicking date)
 - [ ] Remove duplicate code for DOW vs STOCK
 
 - [ ] Edge cases (symbol mapping not available, no news?)
@@ -46,7 +46,7 @@ This project is licensed under the terms of the MIT license.
 - [x] Remove unused buttons
 - [x] Change page title
 - [x] Add search term indicator
-- [ ] Better name!! 
+- [x] Better name!! 
 - [ ] Catch clicking outside of lines
 - [x] Center chart 
 - [ ] Color-blind friendly color palette
