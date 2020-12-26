@@ -1,0 +1,26 @@
+{
+  "name": "stock_spy",
+  "version": "1.0.0",
+  "description": "Analyze historical trends for any stock based on contextual, time-relevant news",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No test file specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/programmingprincess/stock_spy.git"
+  },
+  "dependencies": {
+    "express": "^4.15.2"
+  },
+  "keywords": [
+    "stock",
+    "trends"
+  ],
+  "author": "Jiaqi Wu and Sushmita Azad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/programmingprincess/stock_spy/issues"
+  },
+  "homepage": "https://github.com/programmingprincess/stock_spy#readme"
+}
