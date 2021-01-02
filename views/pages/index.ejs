@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Spy</title>
+  <script src="Chart.min.js" type="text/javascript"></script>
+  <script src="utils.js" type="text/javascript"></script>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <script src="symbolCompanyMapping.json" type="text/javascript"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-730WFKT3PQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-730WFKT3PQ');
+  </script>
+</head>
+<body>
+  <h2 class="title">Stock Spy: Historical stock trend news</h2><!-- <h3>1. Find relevant news: </h3> -->
+  <div id="top-corner">about
+    <span>
+      We track whether a stock deviates general market trends, and if so, fetch time-relevant news about the stock. Learn <a href = "https://github.com/programmingprincess/stock_spy/" target="_blank"> more</a>. 
+    </span>
+  </div>
+
+  Stock Symbol (i.e. AAPL)
+  <form>
+      <input id="stockSymbol" type="text" value=""> <!-- Date: <input type="text" id="myDate" value="YYYY-MM-DD"> -->
+       <button onclick="updateTreeSelection();return false;">Go</button> <!-- 
+
+<h3>1. Select a tree: </h3>
+<select id="tree-dropdown" onchange="updateTreeSelection(this)">
+  <option value="msft" id="tree0">Tree 0</option>
+  <option value="aapl" id="tree1">Tree 1</option>
+  <option value="crm" id="tree2">Tree 2</option>
+  <option value="tree3" id="tree2">Tree 3</option>
+</select> -->
+  </form>
+  <div id="input-error"> Error: Symbol not found </div>
+  <div class="stock_chart">
+    <div class="canvas_container">
+      <canvas id="canvas"></canvas>
+    </div>
+  </div>
+  <div class="boldClass" id="searchInfo">
+    Table below will populate once a point on the line graph is clicked.
+  </div>
+  <div class="col-md-6">
+    <table id="firstTabOverall">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Title</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script src="graphme.js" type="text/javascript"> </script>
+   
+  <script>
+    const STOCKS_API = '/api/stocks'
+    const NEWS_API = '/api/news'
+    // api keys 
+    // 1. open: "152.4100"
+    // 2. high: "163.7100"
+    // 3. low: "152.0000"
+    // 4. close: "162.0100"
+    // 5. adjusted close: "162.0100"
+    // 6. volume: "96388312"
+    // 7. dividend amount: "0.0000"
+    // 8. split coefficient: "1.0000"
+    var dow = "";
+    var dates = [];
+
+
+    var req = new Request(STOCKS_API);
+    var res = ""
+    fetch_stock({symbol: 'SPY'}); // draw chart.js graph with stocks
+
+    updateTreeSelection = function() {
+      var req = new Request(STOCKS_API);
+      var res = ""
+      fetch_stock({symbol: document.getElementById("stockSymbol").value}, dow);
+    }
+    callNewsAPI = function(symbol, date) {
+      const NEWS_SOURCES = ["Coinspeaker.com", "Seekingalpha.com", "Nasdaq.com", "Businesswire.com", "Marketwatch.com", "Bloomberg", "Indianexpress.com", "Forbes.com", "Ndtv.com", "Autoblog.com", "Japantimes.co.jp", "Foxbusiness.com", "Reuters", "Business Insider", "Investing.com", "Yahoo.com", "Vice News"]
+      var set1 = new Set();
+      for (var i in NEWS_SOURCES) {
+        set1.add(NEWS_SOURCES[i])
+      }
+      var companyName = ""
+      if (symbol == "MIMIC") { // mimic is a harcoded value to check similarity with stock
+        companyName = "Stock Market";
+      } else {
+        companyName = mappings[symbol];
+      }
+      let data = {
+        symbol: companyName,
+        date: date
+      };
+      // news API
+      fetch(NEWS_API, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then(res => {
+        // console.log("Request complete! response:", res);
+        return res.json()
+      }).then(response => { // wait for promise 
+        var data = JSON.parse(response)
+        var table = document.getElementById("firstTabOverall");
+        var childNodes = document.getElementById("firstTabOverall").childNodes[3];
+        var new_tbody = document.createElement('tbody');
+        // helper function        
+        function addCell(tr, text) {
+          var td = tr.insertCell();
+          td.innerHTML = text;
+          return td;
+        }
+        // TODO: 
+        // 1. Detect repeat articles (esp for Reuters)
+        // 2. Should we relax the news_source restraint when there are no articles? 
+        data.articles.forEach(function(article) {
+          var title = article.title;
+          var yooareel = title.link(article.url);
+          if (set1.has(article.source.name)) {
+            var row = new_tbody.insertRow();
+            addCell(row, article.source.name);
+            addCell(row, yooareel);
+            addCell(row, article.description);
+            //   set1.add(article.source.name);
+          }
+        });
+        childNodes.parentNode.replaceChild(new_tbody, childNodes)
+      })
+    }
+  </script>
+</body>
+</html>

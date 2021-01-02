@@ -20,6 +20,7 @@ th {
   background-color: #51AD50;
   color: white;
 }
+
 .boldClass{
   font-size: larger;
   font-style: bold;
@@ -34,4 +35,34 @@ th {
 .canvas_container {
   display: inline-block;
   width: 65%;
+}
+
+#top-corner {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+}
+
+#top-corner:hover span {
+  visibility: visible;
+}
+
+#top-corner span {
+  visibility: hidden;
+  position: absolute;
+  padding: 10px;
+  top: 25px;
+  right: 25px;
+  width: 200px;
+  background-color: #696969;
+  border-radius: 5px;
+  /*border: 1px solid #fc7978;*/
+  color: #fff;
+  transition: all .2s ease-in;
+}
+
+#input-error {
+  padding-top: 5px;
+  color: #ca0020;
 }
