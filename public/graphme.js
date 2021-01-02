@@ -110,7 +110,8 @@ function graphme(dates, dow, prices=[]){
           }
 
         }
-        callNewsAPI(symbol, date);
+        console.log('currSymbol ' + currSymbol)
+        callNewsAPI(currSymbol, date);
       },
       responsive: true,
       title: {

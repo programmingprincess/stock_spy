@@ -38,7 +38,7 @@
   <option value="tree3" id="tree2">Tree 3</option>
 </select> -->
   </form>
-  <div id="input-error"> Error: Symbol not found </div>
+  <div id="input-error"></div>
   <div class="stock_chart">
     <div class="canvas_container">
       <canvas id="canvas"></canvas>
@@ -90,6 +90,7 @@
       var res = ""
       fetch_stock({symbol: document.getElementById("stockSymbol").value}, dow);
     }
+
     callNewsAPI = function(symbol, date) {
       const NEWS_SOURCES = ["Coinspeaker.com", "Seekingalpha.com", "Nasdaq.com", "Businesswire.com", "Marketwatch.com", "Bloomberg", "Indianexpress.com", "Forbes.com", "Ndtv.com", "Autoblog.com", "Japantimes.co.jp", "Foxbusiness.com", "Reuters", "Business Insider", "Investing.com", "Yahoo.com", "Vice News"]
       var set1 = new Set();
@@ -100,8 +101,9 @@
       if (symbol == "MIMIC") { // mimic is a harcoded value to check similarity with stock
         companyName = "Stock Market";
       } else {
-        companyName = mappings[symbol];
+         companyName = (mappings[symbol] == undefined) ? symbol + ' stock' : mappings[symbol];
       }
+      // important distinction: news API passes in company name for query search
       let data = {
         symbol: companyName,
         date: date

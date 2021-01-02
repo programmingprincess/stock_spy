@@ -8,6 +8,7 @@ require('dotenv').config();
 // API keys are stored as env variables 
 const configs = require('dotenv').config().parsed
 const request = require('request')
+const xss = require('xss-clean');
 const rateLimit = require("express-rate-limit");
 
  
@@ -66,7 +67,7 @@ app.post('/api/news', function (req, res) {
 	// make sure we have necessary parameters from client side 
 	if(req.body) {
 		var p = req.body // already a JSON object at this point
-
+		console.log(p.symbol);
 	  var url = 'http://newsapi.org/v2/everything?' +
         'q='+p.symbol+'&' +
         // 'to=2020-01-18&' +
