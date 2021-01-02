@@ -11,7 +11,7 @@ function fetch_stock(data, agg=[]) {
     // console.log("Request complete! response:", res);
     return res.json()
   }).then(data => {
-    console.log('fetch_stock' + data)
+    // console.log('fetch_stock' + data)
     var d = JSON.parse(data)
     var series = d["Time Series (Daily)"];
     if (series==undefined) {
@@ -111,7 +111,6 @@ function graphme(dates, dow, prices=[]){
           }
 
         }
-        console.log('currSymbol ' + currSymbol)
         callNewsAPI(currSymbol, date);
       },
       responsive: true,

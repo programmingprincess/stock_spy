@@ -6,7 +6,8 @@ const app = express()
 // Other modules 
 require('dotenv').config();
 // API keys are stored as env variables 
-const configs = require('dotenv').config().parsed
+// const configs = require('dotenv').config().parsed
+// const configs = process.env;
 const request = require('request')
 const xss = require('xss-clean');
 const rateLimit = require("express-rate-limit");
@@ -49,7 +50,7 @@ app.post('/api/stocks', function (req, res) {
 	// Render index page
 	if(req.body) {
 		var p = req.body // json containing symbol
-		var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+p.symbol+'&apikey='+configs.STOCKS_API_KEY
+		var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+p.symbol+'&apikey='+process.env.STOCKS_API_KEY
 
 	  request(url, function (error, response, body) {
 	    // console.log('error:', error); 
@@ -75,7 +76,7 @@ app.post('/api/news', function (req, res) {
         'from='+p.date+'&' +
         'to='+p.date+'&' +
         'sortBy=popularity&' +
-        'apiKey='+configs.NEWS_API_KEY;
+        'apiKey='+process.env.NEWS_API_KEY;
 
     request(url, function (error, response, body) {
 	    // console.log('error:', error); 
