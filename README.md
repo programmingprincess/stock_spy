@@ -1,5 +1,7 @@
 # Stock Spy
 
+View: https://stock-spy.herokuapp.com 
+
 Analyze historical trends for any stock based on contextual, time-relevant news
 
 ![](stockspy_demo.gif)
